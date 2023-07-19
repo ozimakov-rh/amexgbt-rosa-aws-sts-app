@@ -25,7 +25,6 @@ public class ListResource {
     @Inject
     StsClient sts;
 
-    @Inject
     S3Client s3;
 
     @ConfigProperty(name = "bucket.name", defaultValue = "default")
@@ -57,7 +56,8 @@ public class ListResource {
                 .bucket(bucketName)
                 .build();
 
-        return Multi.createFrom().items(s3.listObjects(listObjectRequest).contents().stream())
-                .map(S3Object::key);
+        return Multi.createFrom().items(
+                s3.listObjects(listObjectRequest).contents().stream()
+        ).map(S3Object::key);
     }
 }
